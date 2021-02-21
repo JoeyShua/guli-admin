@@ -63,6 +63,13 @@
         align="center"
         label="品牌logo地址"
       >
+       <template slot-scope="scope">
+          <!-- <el-image
+              style="width: 100px; height: 80px"
+              :src="scope.row.logo"
+          fit="fill"></el-image>-->
+          <img :src="scope.row.logo" style="width: 100px; height: 80px" />
+        </template>
       </el-table-column>
       <el-table-column
         prop="descript"
@@ -123,7 +130,6 @@
             @click="deleteHandle(scope.row.brandId)"
             >删除</el-button
           >
-         
         </template>
       </el-table-column>
     </el-table>
@@ -257,11 +263,11 @@ export default {
       this.$http({
         url: this.$http.adornUrl("/product/pmsbrand/update/status"),
         method: "post",
-        data: this.$http.adornData({ brandId, showStatus }, false)
+        data: this.$http.adornData({ brandId, showStatus }, false),
       }).then(({ data }) => {
         this.$message({
           type: "success",
-          message: "状态更新成功"
+          message: "状态更新成功",
         });
       });
     },

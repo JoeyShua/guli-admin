@@ -16,20 +16,22 @@
           <el-input v-model="dataForm.name" placeholder="品牌名"></el-input>
         </el-form-item>
         <el-form-item label="品牌logo地址" prop="logo">
-          <el-input
+          <!--<el-input
             v-model="dataForm.logo"
             placeholder="品牌logo地址"
-          ></el-input>
+          ></el-input>-->
+          <singleUpload v-model="dataForm.logo" />
         </el-form-item>
         <el-form-item label="介绍" prop="descript">
           <el-input v-model="dataForm.descript" placeholder="介绍"></el-input>
         </el-form-item>
         <el-form-item label="显示状态" prop="showStatus">
-          
-           <el-switch
+          <el-switch
             v-model="dataForm.showStatus"
             active-color="#13ce66"
             inactive-color="#ff4949"
+            :active-value="1"
+            :inactive-value="0"
           >
           </el-switch>
         </el-form-item>
@@ -52,7 +54,11 @@
 </template>
 
 <script>
+import singleUpload from "@/components/upload/singleUpload";
+
 export default {
+  components: { singleUpload },
+
   data() {
     return {
       visible: false,
@@ -81,7 +87,15 @@ export default {
           },
         ],
         firstLetter: [
-          { required: true, message: "检索首字母不能为空", trigger: "blur" },
+          { validator: (rule, value, callback) => {
+              if (value == "") {
+                callback(new Error("首字母必须填写"));
+              } else if (!/^[a-zA-Z]$/.test(value)) {
+                callback(new Error("首字母必须a-z或者A-Z之间"));
+              } else {
+                callback();
+              }
+            }, trigger: "blur" },
         ],
         sort: [{ required: true, message: "排序不能为空", trigger: "blur" }],
       },
@@ -96,18 +110,18 @@ export default {
         if (this.dataForm.brandId) {
           this.$http({
             url: this.$http.adornUrl(
-              `/product/brand/info/${this.dataForm.brandId}`
+              `/product/pmsbrand/info/${this.dataForm.brandId}`
             ),
             method: "get",
             params: this.$http.adornParams(),
           }).then(({ data }) => {
             if (data && data.code === 0) {
-              this.dataForm.name = data.brand.name;
-              this.dataForm.logo = data.brand.logo;
-              this.dataForm.descript = data.brand.descript;
-              this.dataForm.showStatus = data.brand.showStatus;
-              this.dataForm.firstLetter = data.brand.firstLetter;
-              this.dataForm.sort = data.brand.sort;
+              this.dataForm.name = data.pmsBrand.name;
+              this.dataForm.logo = data.pmsBrand.logo;
+              this.dataForm.descript = data.pmsBrand.descript;
+              this.dataForm.showStatus = data.pmsBrand.showStatus;
+              this.dataForm.firstLetter = data.pmsBrand.firstLetter;
+              this.dataForm.sort = data.pmsBrand.sort;
             }
           });
         }
