@@ -325,14 +325,14 @@ export default {
       }).then(({ data }) => {
         //请求成功
         console.log("要回显的数据", data);
-        this.category.name = data.data.name;
-        this.category.catId = data.data.catId;
-        this.category.icon = data.data.icon;
-        this.category.productUnit = data.data.productUnit;
-        this.category.parentCid = data.data.parentCid;
-        this.category.catLevel = data.data.catLevel;
-        this.category.sort = data.data.sort;
-        this.category.showStatus = data.data.showStatus;
+        this.category.name = data.pmsCategory.name;
+        this.category.catId = data.pmsCategory.catId;
+        this.category.icon = data.pmsCategory.icon;
+        this.category.productUnit = data.pmsCategory.productUnit;
+        this.category.parentCid = data.pmsCategory.parentCid;
+        this.category.catLevel = data.pmsCategory.catLevel;
+        this.category.sort = data.pmsCategory.sort;
+        this.category.showStatus = data.pmsCategory.showStatus;
         /**
          *         parentCid: 0,
         catLevel: 0,
